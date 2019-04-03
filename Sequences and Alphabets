@@ -1,0 +1,18 @@
+import Bio
+
+from Bio.Seq import Seq
+my_seq = Seq("AGTACACTGGT")    #创建模糊序列#
+print(my_seq)
+print(my_seq.alphabet)
+
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+my_seq = Seq("AGTACACTGGT", IUPAC.unambiguous_dna)    #明确的DNA字母表对象#
+print(my_seq)
+print(my_seq.alphabet)
+
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+my_prot = Seq("AGTACACTGGT", IUPAC.protein)    #假如这是一条真的氨基酸序列呢#
+print(my_prot)
+print(my_prot.alphabet)
