@@ -1,0 +1,18 @@
+import Bio
+
+
+#测算GC含量#
+
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+my_seq = Seq('GATCGATGGGCCTATATAGGATCGAAAATCGC', IUPAC.unambiguous_dna)
+print(100 * float(my_seq.count("G") + my_seq.count("C")) / len(my_seq))
+
+
+#内置GC含量模块#
+
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+from Bio.SeqUtils import GC
+my_seq = Seq('GATCGATGGGCCTATATAGGATCGAAAATCGC', IUPAC.unambiguous_dna)
+GC(my_seq)
