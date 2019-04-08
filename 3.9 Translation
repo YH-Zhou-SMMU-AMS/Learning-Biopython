@@ -1,0 +1,38 @@
+import Bio
+
+
+#翻译#
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+messenger_rna = Seq("AUGGCCAUUGUAAUGGGCCGCUGAAAGGGUGCCCGAUAG", IUPAC.unambiguous_rna)
+messenger_rna
+messenger_rna.translate()
+
+coding_dna = Seq("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG", IUPAC.unambiguous_dna)
+coding_dna.translate()
+
+#不同的翻译表，比如线粒体序列相关的翻译密码子#
+coding_dna.translate(table="Vertebrate Mitochondrial")
+
+#利用NCBI上表格的标号来指定所使用的遗传密码#
+coding_dna.translate(table=2)
+
+#将上面的核苷酸序列仅翻译到阅读框的第一个终止密码子，然后停止#
+coding_dna.translate(to_stop=True)
+coding_dna.translate(table=2, to_stop=True)
+
+#举个例子#
+from Bio.Seq import Seq
+from Bio.Alphabet import generic_dna
+gene = Seq("GTGAAAAAGATGCAATCTATCGTACTCGCACTTTCCCTGGTTCTGGTCGCTCCCATGGCA" + \
+           "GCACAGGCTGCGGAAATTACGTTAGTCCCGTCAGTAAAATTACAGATAGGCGATCGTGAT" + \
+           "AATCGTGGCTATTACTGGGATGGAGGTCACTGGCGCGACCACGGCTGGTGGAAACAACAT" + \
+           "TATGAATGGCGAGGCAATCGCTGGCACCTACACGGACCGCCGCCACCGCCGCGCCACCAT" + \
+           "AAGAAAGCTCCTCATGATCATCACGGCGGTCATGGTCCAGGCAAACATCACCGCTAA",
+           generic_dna)
+gene.translate(table="Bacterial")
+gene.translate(table="Bacterial", to_stop=True)
+#在细菌遗传密码中GTG是个有效的起始密码子，正常情况下编码V；如果作为起始密码子，则翻译成M#
+
+#告诉Biopython你的序列是完整CDS时，V将变成M#
+gene.translate(table="Bacterial", cds=True)
