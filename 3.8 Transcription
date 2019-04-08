@@ -1,0 +1,21 @@
+import Bio
+
+
+#创建编码链和模板链#
+from Bio.Seq import Seq
+from Bio.Alphabet import IUPAC
+coding_dna = Seq("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG", IUPAC.unambiguous_dna)
+coding_dna
+
+template_dna = coding_dna.reverse_complement()
+template_dna
+
+#将编码链转录成对应的mRNA#
+messenger_rna = coding_dna.transcribe()
+messenger_rna
+
+template_dna.reverse_complement().transcribe()
+
+#逆转录#
+messenger_rna
+messenger_rna.back_transcribe()
