@@ -1,0 +1,19 @@
+import Bio
+
+
+#查看翻译表# #翻译表编号的查询：https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#
+from Bio.Data import CodonTable
+standard_table = CodonTable.unambiguous_dna_by_name["Standard"]
+standard_table = CodonTable.unambiguous_dna_by_id[1]    #等价方式#
+
+mito_table = CodonTable.unambiguous_dna_by_name["Vertebrate Mitochondrial"]
+mito_table = CodonTable.unambiguous_dna_by_id[2]    #等价方式#
+
+print(standard_table)
+
+print(mito_table)
+
+#查询终止密码、启动密码和个别密码对应的氨基酸#
+mito_table.stop_codons
+mito_table.start_codons
+mito_table.forward_table["ACG"]
