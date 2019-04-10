@@ -1,0 +1,13 @@
+import Bio
+
+
+#用切片从父序列截取5:18,然后取反向互补序列#
+from Bio.Seq import Seq
+from Bio.SeqFeature import SeqFeature, FeatureLocation
+example_parent = Seq("ACCGAGACGGCAAAGGCTAGCATAGGTATGAGACTTCCTTCCTGCCAGTGCTGAGGAACTGGGAGCCTAC")
+example_feature = SeqFeature(FeatureLocation(5, 18), type="gene", strand=-1)
+feature_seq = example_parent[example_feature.location.start:example_feature.location.end].reverse_complement()
+print(feature_seq)
+
+feature_seq = example_feature.extract(example_parent)
+print(feature_seq)
