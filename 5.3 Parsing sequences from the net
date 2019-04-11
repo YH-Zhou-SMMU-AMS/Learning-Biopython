@@ -1,0 +1,44 @@
+import Bio
+
+
+#解析来自网络的GenBank序列条目#
+from Bio import Entrez
+from Bio import SeqIO
+Entrez.email = "A.N.Other@example.com"
+handle = Entrez.efetch(db="nucleotide", rettype="fasta", retmode="text", id="6273291")
+seq_record = SeqIO.read(handle, "fasta")
+handle.close()
+print("%s with %i features" % (seq_record.id, len(seq_record.features)))
+
+from Bio import Entrez
+from Bio import SeqIO
+Entrez.email = "A.N.Other@example.com"
+handle = Entrez.efetch(db="nucleotide", rettype="gb", retmode="text", id="6273291")
+seq_record = SeqIO.read(handle, "gb") #using "gb" as an alias for "genbank"
+handle.close()
+print("%s with %i features" % (seq_record.id, len(seq_record.features)))
+
+#获取多个序列条目#
+from Bio import Entrez
+from Bio import SeqIO
+Entrez.email = "A.N.Other@example.com"
+handle = Entrez.efetch(db="nucleotide", rettype="gb", retmode="text",id="6273291,6273290,6273289")
+for seq_record in SeqIO.parse(handle, "gb"):
+    print(seq_record.id, seq_record.description[:50] + "...")
+    print("Sequence length %i," % len(seq_record),)
+    print("%i features," % len(seq_record.features),)
+    print("from: %s" % seq_record.annotations["source"])
+handle.close()
+
+#解析来自网络的SwissProt序列条目#
+from Bio import ExPASy
+from Bio import SeqIO
+handle = ExPASy.get_sprot_raw("O23729")
+seq_record = SeqIO.read(handle, "swiss")
+handle.close()
+print(seq_record.id)
+print(seq_record.name)
+print(seq_record.description)
+print(repr(seq_record.seq))
+print("Length %i" % len(seq_record))
+print(seq_record.annotations["keywords"])
