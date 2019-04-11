@@ -13,3 +13,4 @@ for seq_record in SeqIO.parse("ls_orchid.gb", "genbank"):
     print(seq_record.id)
     print(seq_record.seq)
     print(len(seq_record)) 
+#Bio.SeqIO.read()函数只能读取一条记录#
