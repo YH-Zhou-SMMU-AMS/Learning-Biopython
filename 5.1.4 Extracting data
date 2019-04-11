@@ -1,0 +1,24 @@
+import Bio
+
+
+#创建一个包含所有兰花序列的物种列表#
+from Bio import SeqIO
+all_species = []
+for seq_record in SeqIO.parse("ls_orchid.gb", "genbank"):
+    all_species.append(seq_record.annotations["organism"])
+print(all_species)
+
+from Bio import SeqIO
+all_species = [seq_record.annotations["organism"] for seq_record in SeqIO.parse("ls_orchid.gb", "genbank")]
+print(all_species)
+
+#GenBank文件很容易进行列表的提取，但是FASTA就比较复杂#
+from Bio import SeqIO
+all_species = []
+for seq_record in SeqIO.parse("ls_orchid.fasta", "fasta"):
+    all_species.append(seq_record.description.split()[1])    #可以用代码查看一下seq_record.description，空格代表split的标志#
+print(all_species)
+
+from Bio import SeqIO
+all_species == [seq_record.description.split()[1] for seq_record in SeqIO.parse("ls_orchid.fasta", "fasta")]
+print(all_species)
