@@ -1,0 +1,38 @@
+import Bio
+
+
+#序列文件作为字典-在内存中#
+from Bio import SeqIO
+orchid_dict = SeqIO.to_dict(SeqIO.parse("ls_orchid.gb", "genbank"))
+orchid_dict
+
+#使用上述相同的代码，仅将文件改为 FASTA 文件，用于练习指定键#
+from Bio import SeqIO
+orchid_dict = SeqIO.to_dict(SeqIO.parse("ls_orchid.fasta", "fasta"))
+print(orchid_dict.keys())    #得到所有的键，混乱而且冗长，我们需要的将 accession 作为字典的键#
+
+#自定义一个用于获得 accession 的函数#
+def get_accession(record):
+    """"Given a SeqRecord, return the accession number as a string.
+
+    e.g. "gi|2765613|emb|Z78488.1|PTZ78488" -> "Z78488.1"
+    """
+    parts = record.id.split("|")
+    assert len(parts) == 5 and parts[0] == "gi" and parts[2] == "emb"
+    return parts[3]
+
+from Bio import SeqIO
+orchid_dict = SeqIO.to_dict(SeqIO.parse("ls_orchid.fasta", "fasta"), key_function=get_accession)
+print(orchid_dict.keys())    #发现字典的键已经改成了我们所需要的 accession #
+
+#使用SEGUID校验和对字典建立索引#
+from Bio import SeqIO
+from Bio.SeqUtils.CheckSum import seguid
+for record in SeqIO.parse("ls_orchid.gb", "genbank"):
+    print(record.id, seguid(record.seq))    #得到id和检索码#
+
+#使用 Python 的 lambda 特性创建一个一次性（“one off”）函数#
+seguid_dict = SeqIO.to_dict(SeqIO.parse("ls_orchid.gb", "genbank"),lambda rec : seguid(rec.seq))
+record = seguid_dict["MN/s0q9zDoCVEEc+k/IFwCNF2pY"]    #不太理解为什么要用这么复杂的检索码#
+print(record.id)
+print(record.description)
