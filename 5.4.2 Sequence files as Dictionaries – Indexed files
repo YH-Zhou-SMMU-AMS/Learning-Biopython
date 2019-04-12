@@ -1,0 +1,10 @@
+import Bio
+
+
+##
+from Bio import SeqIO
+uniprot = SeqIO.index("uniprot_sprot.dat", "swiss")
+print("%i sequences indexed" % len(uniprot))    #查看总序列数#
+print(uniprot["P33487"])
+print(uniprot.get_raw("P33487"))    #获取原始数据#
+print(uniprot["P33487"].description)
