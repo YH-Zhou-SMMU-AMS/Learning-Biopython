@@ -1,0 +1,6 @@
+import Bio
+
+
+from Bio import SeqIO
+uniprot_sprot_dict = SeqIO.index_db("uniprot_sprot.idx", "uniprot_sprot.dat", "swiss")
+#建立数据库索引文件 "uniprot_sprot.idx" ，对于二代测序文件等作用极大，因为内存无法承接如此大规模的数据#
