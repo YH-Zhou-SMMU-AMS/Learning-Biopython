@@ -1,0 +1,56 @@
+import Bio
+
+
+#手动输入序列#
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.Alphabet import generic_protein
+
+rec1 = SeqRecord(Seq("MMYQQGCFAGGTVLRLAKDLAENNRGARVLVVCSEITAVTFRGPSETHLDSMVGQALFGD" \
+                    +"GAGAVIVGSDPDLSVERPLYELVWTGATLLPDSEGAIDGHLREVGLTFHLLKDVPGLISK" \
+                    +"NIEKSLKEAFTPLGISDWNSTFWIAHPGGPAILDQVEAKLGLKEEKMRATREVLSEYGNM" \
+                    +"SSAC", generic_protein),
+                 id="gi|14150838|gb|AAK54648.1|AF376133_1",
+                 description="chalcone synthase [Cucumis sativus]")
+
+rec2 = SeqRecord(Seq("YPDYYFRITNREHKAELKEKFQRMCDKSMIKKRYMYLTEEILKENPSMCEYMAPSLDARQ" \
+                    +"DMVVVEIPKLGKEAAVKAIKEWGQ", generic_protein),
+                 id="gi|13919613|gb|AAK33142.1|",
+                 description="chalcone synthase [Fragaria vesca subsp. bracteata]")
+
+rec3 = SeqRecord(Seq("MVTVEEFRRAQCAEGPATVMAIGTATPSNCVDQSTYPDYYFRITNSEHKVELKEKFKRMC" \
+                    +"EKSMIKKRYMHLTEEILKENPNICAYMAPSLDARQDIVVVEVPKLGKEAAQKAIKEWGQP" \
+                    +"KSKITHLVFCTTSGVDMPGCDYQLTKLLGLRPSVKRFMMYQQGCFAGGTVLRMAKDLAEN" \
+                    +"NKGARVLVVCSEITAVTFRGPNDTHLDSLVGQALFGDGAAAVIIGSDPIPEVERPLFELV" \
+                    +"SAAQTLLPDSEGAIDGHLREVGLTFHLLKDVPGLISKNIEKSLVEAFQPLGISDWNSLFW" \
+                    +"IAHPGGPAILDQVELKLGLKQEKLKATRKVLSNYGNMSSACVLFILDEMRKASAKEGLGT" \
+                    +"TGEGLEWGVLFGFGPGLTVETVVLHSVAT", generic_protein),
+                 id="gi|13925890|gb|AAK49457.1|",
+                 description="chalcone synthase [Nicotiana tabacum]")
+
+my_records = [rec1, rec2, rec3]
+
+#写出序列文件，可以用记事本打开查看#
+from Bio import SeqIO
+SeqIO.write(my_records, "my_example.faa", "fasta")
+#如果是相同的文件名自然会被覆盖，而且不会有任何的提示#
+
+# genbank 转化 FASTA #
+from Bio import SeqIO
+records = SeqIO.parse("ls_orchid.gb", "genbank")
+count = SeqIO.write(records, "my_example.fasta", "fasta")
+print("Converted %i records" % count)
+
+from Bio import SeqIO
+count = SeqIO.convert("ls_orchid.gb", "genbank", "my_example.fasta", "fasta")
+print("Converted %i records" % count)
+
+#转化序列到反向互补序列，即是添加具体条件也很容易#
+from Bio import SeqIO
+records = (rec.reverse_complement(id="rc_"+rec.id, description = "reverse complement") for rec in SeqIO.parse("ls_orchid.fasta", "fasta") if len(rec)<700)
+SeqIO.write(records, "rev_comp.fasta", "fasta")
+
+#将 genbank 或 FASTA 文件中的 id 和具体序列提出做成纯文本，有大用处#
+from Bio import SeqIO
+records = (rec for rec in SeqIO.parse("ls_orchid.gb", "genbank") if len(rec) > 100)
+SeqIO.write(records, "ls_orchid.tab", "tab")
