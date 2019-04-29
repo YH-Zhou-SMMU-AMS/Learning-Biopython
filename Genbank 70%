@@ -1,0 +1,10 @@
+from Bio import SeqIO
+print("name","len","molecule_type","topology","data_file_division","date","description","id","accessions","sequence_version",\n
+"gi","keywords","source","organism","taxonomy","references","structured_comment","seq")
+for seq_record in SeqIO.parse("JTV.gb", "genbank"):
+    print(seq_record.name,"&",len(seq_record),"&",seq_record.annotations["molecule_type"],"&",seq_record.annotations["topology"],\n
+    "&",seq_record.annotations["data_file_division"],"&",seq_record.annotations["date"],"&",seq_record.description,"&",seq_record.id,\n
+    "&",seq_record.annotations["accessions"],"&",seq_record.annotations["sequence_version"],"&",seq_record.annotations["gi"],\n
+    "&",seq_record.annotations["keywords"],"&",seq_record.annotations["source"],"&",seq_record.annotations["organism"],\n
+    "&",seq_record.annotations["taxonomy"],"&",seq_record.annotations["references"],"&",seq_record.annotations["structured_comment"],\n
+    "&",seq_record.seq)
